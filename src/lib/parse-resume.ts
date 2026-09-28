@@ -9,8 +9,9 @@ export interface ParsedResume {
 }
 
 const EMAIL_RE = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
-// Matches +91-style and bare Indian mobile numbers, and generic 10+ digit phone numbers.
-const PHONE_RE = /(\+?\d{1,3}[-.\s]?)?\(?\d{3,5}\)?[-.\s]?\d{3,4}[-.\s]?\d{3,4}/g;
+// Matches +91-style and bare Indian mobile numbers (e.g. "+91 98204 37810"),
+// and generic 10+ digit phone numbers split into 2-3 groups.
+const PHONE_RE = /(\+\d{1,3}[-.\s]?)?\d{3,5}[-.\s]?\d{3,4}[-.\s]?\d{2,4}\b/g;
 const URL_RE = /(https?:\/\/)?(www\.)?(linkedin\.com|github\.com)\/[^\s|,)]+/gi;
 
 export async function extractTextFromFile(file: File): Promise<string> {

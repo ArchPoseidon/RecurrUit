@@ -1,4 +1,5 @@
-import "dotenv/config";
+import { config } from "dotenv";
+config({ path: ".env.local" });
 import { db } from "./index";
 import { jobDescriptions, rubricSettings, appSettings } from "./schema";
 import { PM_JD_TITLE, PM_JD_CONTENT, SPM_JD_TITLE, SPM_JD_CONTENT } from "./seed-jds";
