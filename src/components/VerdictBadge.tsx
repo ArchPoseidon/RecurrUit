@@ -9,7 +9,9 @@ export function VerdictBadge({ verdict }: { verdict: string | null }) {
   if (!verdict) return <span className="text-xs text-muted">—</span>;
   const style = STYLES[verdict] ?? "bg-muted/15 text-muted border-muted/30";
   return (
-    <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${style}`}>
+    <span
+      className={`inline-flex items-center whitespace-nowrap rounded-full border px-2.5 py-0.5 text-xs font-medium ${style}`}
+    >
       {verdict}
     </span>
   );
