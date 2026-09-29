@@ -2,7 +2,7 @@ import Link from "next/link";
 import { db } from "@/db";
 import { candidates } from "@/db/schema";
 import { ROLE_RUBRICS, type Role, type Verdict } from "@/lib/rubric";
-import { VerdictBar } from "@/components/VerdictBar";
+import { VerdictBar, VerdictBuckets } from "@/components/VerdictBar";
 
 const ROLES: Role[] = ["pm", "spm"];
 
@@ -22,7 +22,7 @@ export default async function OverviewPage() {
         <p className="text-sm text-muted mt-1">Where every applicant stands, by role.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="flex flex-col gap-8">
         {ROLES.map((role) => {
           const roleRows = rows.filter((r) => r.role === role);
           const total = roleRows.length;
@@ -37,24 +37,27 @@ export default async function OverviewPage() {
           const sent = shortlisted.filter((r) => r.emailStatus === "sent").length;
 
           return (
-            <div key={role} className="rounded-lg border border-border bg-surface p-5">
-              <div className="flex items-baseline justify-between mb-1">
-                <h2 className="font-semibold">{ROLE_RUBRICS[role].label}</h2>
-                <Link href={`/candidates?role=${role}`} className="text-xs text-muted hover:text-accent">
+            <div key={role} className="rounded-2xl border border-border bg-surface p-8">
+              <div className="flex items-baseline justify-between mb-2">
+                <h2 className="text-xl font-bold">{ROLE_RUBRICS[role].label}</h2>
+                <Link href={`/candidates?role=${role}`} className="text-sm text-muted hover:text-accent">
                   View candidates →
                 </Link>
               </div>
-              <p className="text-3xl font-semibold font-mono mb-5">
+              <p className="text-5xl font-bold font-mono mb-8">
                 {total}
-                <span className="text-sm font-sans font-normal text-muted ml-1.5">
+                <span className="text-base font-sans font-normal text-muted ml-2">
                   {total === 1 ? "candidate" : "candidates"}
                 </span>
               </p>
 
               <VerdictBar counts={counts} total={total} />
+              <div className="mt-5">
+                <VerdictBuckets counts={counts} />
+              </div>
 
-              <div className="mt-6 pt-5 border-t border-border">
-                <p className="text-xs uppercase tracking-wide text-muted mb-2">Outreach</p>
+              <div className="mt-8 pt-6 border-t border-border">
+                <p className="text-xs uppercase tracking-wide text-muted mb-3">Outreach</p>
                 {shortlisted.length === 0 ? (
                   <p className="text-sm text-muted">No one shortlisted yet.</p>
                 ) : (
@@ -75,9 +78,10 @@ export default async function OverviewPage() {
                         />
                       )}
                     </div>
-                    <p className="mt-2 text-xs text-muted">
-                      <span className="font-mono text-foreground">{sent}</span> of{" "}
-                      <span className="font-mono text-foreground">{shortlisted.length}</span> shortlisted invites sent
+                    <p className="mt-2 text-sm text-muted">
+                      <span className="font-mono text-foreground font-semibold">{sent}</span> of{" "}
+                      <span className="font-mono text-foreground font-semibold">{shortlisted.length}</span> shortlisted
+                      invites sent
                     </p>
                   </>
                 )}

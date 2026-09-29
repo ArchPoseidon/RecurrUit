@@ -5,6 +5,7 @@ import { candidates } from "@/db/schema";
 import { CRITERIA, CRITERION_ORDER, ROLE_RUBRICS, type Role, type CriterionId } from "@/lib/rubric";
 import { VerdictBadge } from "@/components/VerdictBadge";
 import { CandidateEmailEditor } from "@/components/CandidateEmailEditor";
+import { DeleteCandidateButton } from "@/components/DeleteCandidateButton";
 
 export default async function CandidateDetailPage({
   params,
@@ -22,11 +23,14 @@ export default async function CandidateDetailPage({
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">{candidate.name}</h1>
-        <p className="text-sm text-muted mt-1">
-          {candidate.email} {candidate.phone ? `· ${candidate.phone}` : ""} · Applied for {ROLE_RUBRICS[role].label}
-        </p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">{candidate.name}</h1>
+          <p className="text-sm text-muted mt-1">
+            {candidate.email} {candidate.phone ? `· ${candidate.phone}` : ""} · Applied for {ROLE_RUBRICS[role].label}
+          </p>
+        </div>
+        <DeleteCandidateButton candidateId={candidate.id} candidateName={candidate.name} variant="detail" />
       </div>
 
       <div className="grid grid-cols-3 gap-4">

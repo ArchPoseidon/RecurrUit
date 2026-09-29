@@ -33,3 +33,10 @@ export async function PATCH(request: NextRequest, ctx: Params) {
   if (!updated) return NextResponse.json({ error: "Not found" }, { status: 404 });
   return NextResponse.json(updated);
 }
+
+export async function DELETE(_request: NextRequest, ctx: Params) {
+  const { id } = await ctx.params;
+  const [deleted] = await db.delete(candidates).where(eq(candidates.id, id)).returning();
+  if (!deleted) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  return NextResponse.json({ ok: true });
+}

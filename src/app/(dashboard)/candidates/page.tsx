@@ -5,6 +5,7 @@ import { candidates } from "@/db/schema";
 import { isRole, ROLE_RUBRICS, type Role } from "@/lib/rubric";
 import { VerdictBadge } from "@/components/VerdictBadge";
 import { UploadPanel } from "@/components/UploadPanel";
+import { DeleteCandidateButton } from "@/components/DeleteCandidateButton";
 
 export default async function CandidatesPage({
   searchParams,
@@ -62,6 +63,7 @@ export default async function CandidatesPage({
                 <th className="px-4 py-3 font-medium">Gate</th>
                 <th className="px-4 py-3 font-medium">Verdict</th>
                 <th className="px-4 py-3 font-medium">Email</th>
+                <th className="px-4 py-3 font-medium">Actions</th>
                 <th className="w-8" />
               </tr>
             </thead>
@@ -85,6 +87,9 @@ export default async function CandidatesPage({
                   </td>
                   <td className="px-4 py-3 text-xs text-muted capitalize">
                     {c.emailStatus.replace("_", " ")}
+                  </td>
+                  <td className="px-4 py-3">
+                    <DeleteCandidateButton candidateId={c.id} candidateName={c.name} />
                   </td>
                   <td className="p-0">
                     <Link
