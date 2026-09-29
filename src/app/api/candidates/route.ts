@@ -55,6 +55,11 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // Demo safeguard: every candidate's outreach address is overridden to a
+  // single fixed test inbox, so anyone trying the app can click "Send email"
+  // without risk of it reaching a real applicant's real address.
+  const outreachEmail = process.env.DEMO_OUTREACH_EMAIL || parsed.email;
+
   const assessment = await assessCandidate({
     role,
     jdContent: jd.content,
@@ -87,7 +92,7 @@ export async function POST(request: NextRequest) {
     .values({
       role,
       name: parsed.name,
-      email: parsed.email,
+      email: outreachEmail,
       phone: parsed.phone,
       sourceFileName: file.name,
       resumeText: parsed.rawText,
