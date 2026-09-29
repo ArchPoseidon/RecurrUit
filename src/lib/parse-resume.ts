@@ -24,6 +24,16 @@ export async function extractTextFromFile(file: File): Promise<string> {
   }
 
   if (name.endsWith(".pdf")) {
+    // pdfjs-dist (via pdf-parse) reaches for DOMMatrix during text-position
+    // math even for plain text extraction. It normally gets this from the
+    // native @napi-rs/canvas dependency, but serverless bundlers (Vercel's
+    // function tracer included) don't reliably ship that native binary.
+    // A pure-JS polyfill sidesteps the native-binary problem entirely.
+    if (typeof (globalThis as { DOMMatrix?: unknown }).DOMMatrix === "undefined") {
+      const { default: CSSMatrix } = await import("dommatrix");
+      (globalThis as { DOMMatrix?: unknown }).DOMMatrix = CSSMatrix;
+    }
+
     const { PDFParse } = await import("pdf-parse");
     const parser = new PDFParse({ data: buffer });
     try {
