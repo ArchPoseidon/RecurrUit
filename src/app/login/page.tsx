@@ -33,11 +33,6 @@ export default function LoginPage() {
             Recruit fast with{" "}
             <span className="text-accent">RecurrUit</span>
           </h1>
-
-          <p className="max-w-lg text-base sm:text-lg text-muted leading-relaxed">
-            AI-assisted CV shortlisting, rubric scoring, and interview-ready outreach — built for Kargo&apos;s
-            Product Manager and Senior Product Manager hiring.
-          </p>
         </div>
 
         <LoginForm initialPassword={process.env.APP_PASSWORD ?? ""} />
